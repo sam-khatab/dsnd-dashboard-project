@@ -31,6 +31,7 @@ class QueryMixin:
     # to use an sqlite3 cursor)
     #### YOUR CODE HERE
     def query(self, sql_query: str) -> list:
+        print(f"Executed query: {sql_query}")
         connection = connect(db_path)
         cursor = connection.cursor()
         result = cursor.execute(sql_query).fetchall()

@@ -6,7 +6,7 @@ class CombinedComponent:
     outer_div_type = Div(cls='container')
     
     def __call__(self, userid, model):
-       
+       print(f"Calling CombinedComponent: {self.__class__.__name__} with userid: {userid} and model: {model}")
        called_children = self.call_children(userid, model)
        div_args = self.div_args(userid, model)
 
@@ -16,6 +16,7 @@ class CombinedComponent:
 
         called = []
         for child in self.children:
+            print(f"Calling child: {child.__class__.__name__} with userid: {userid} and model: {model}")
             if isinstance(child, FT):
                 called.append(child())
                 

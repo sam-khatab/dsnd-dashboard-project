@@ -8,7 +8,6 @@ data related to positive and negative events. The module also imports necessary 
 '''
 # Import the QueryBase class
 from .query_base import QueryBase
-from .sql_execution import execute
 
 
 # Import dependencies needed for sql execution
@@ -42,9 +41,10 @@ class Employee(QueryBase):
         # 2. The employee's id
         # This query should return the data
         # for all employees in the database
-        sql_query = f"SELECT full_name, employee_id FROM {self.name}"
-        #sql_excution.execute(sql_query) return a list of tuples from an sql execution
-        return execute(sql_query) #execute is imported from sql_execution.py
+        sql_query = f"SELECT first_name, last_name, employee_id FROM {self.name}"
+        # we have to combine the first and last name into a single string for the full name as a list of tuples.
+        list_of_tuples = self.query(sql_query) #execute is imported from sql_execution.py
+        return [(f"{first} {last}", emp_id) for first, last, emp_id in list_of_tuples]
 
     # Define a method called `username`
     # that receives an `id` argument
@@ -61,9 +61,9 @@ class Employee(QueryBase):
         # Use f-string formatting and a WHERE filter
         # to only return the full name of the employee
         # with an id equal to the id argument
-        sql_query = f"SELECT full_name FROM {self.name} WHERE employee_id = {employee_id}"
+        sql_query = f"SELECT first_name, last_name FROM {self.name} WHERE employee_id = {employee_id}"
         #sql_excution.execute(sql_query) return a list of tuples from an sql execution
-        return execute(sql_query)
+        return self.query(sql_query)
 
 
     # Below is method with an SQL query
@@ -86,5 +86,5 @@ class Employee(QueryBase):
                         USING({self.name}_id)
                     WHERE {self.name}.{self.name}_id = {employee_id}
                 """
-        return execute(sql_query) #execute is imported from sql_execution.py
+        return self.query(sql_query) #execute is imported from sql_execution.py
     

@@ -11,8 +11,6 @@ for SQL execution.
 from .query_base import QueryBase
 
 # Import dependencies for sql execution
-#### YOUR CODE HERE
-from .sql_execution import execute
 
 # Create a subclass of QueryBase
 # called  `Team`
@@ -41,7 +39,7 @@ class Team(QueryBase):
         # in the database
         sql_query = f"SELECT team_name, team_id FROM {self.name}"
         #sql_excution.execute(sql_query) return a list of tuples from an sql execution
-        return execute(sql_query) #execute is imported from sql_execution.py
+        return self.query(sql_query) #execute is imported from sql_execution.py
 
     # Define a `username` method
     # that receives an ID argument
@@ -59,7 +57,7 @@ class Team(QueryBase):
         # the ID argument
         #### YOUR CODE HERE
         sql_query = f"SELECT team_name FROM {self.name} WHERE team_id = {user_id}"
-        return execute(sql_query) #execute is imported from sql_execution.py
+        return self.query(sql_query) #execute is imported from sql_execution.py
 
     # Below is method with an SQL query
     # This SQL query generates the data needed for
@@ -84,4 +82,4 @@ class Team(QueryBase):
                     GROUP BY employee_id
                    )
                 """
-        return execute(sql_query) #execute is imported from sql_execution.py
+        return self.query(sql_query) #execute is imported from sql_execution.py
