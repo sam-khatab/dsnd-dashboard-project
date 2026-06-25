@@ -52,7 +52,7 @@ class ReportDropdown(Dropdown):
 
         #But there is no method that returns ids and username.... either all ids and usernames or a single username
         print(f"Model name: {model.name}, Entity ID: {entity_id}")
-        return model.names() if model.name == "employee" else model.names()
+        return model.names()
 
 
 # Create a subclass of base_components/BaseComponent
@@ -278,7 +278,7 @@ def get():
 # to a string datatype
 #### YOUR CODE HERE
 @app.get('/employee/{id}')
-def get_employee(id: str):
+def get_employee(id: str, profile_type: str = "Employee"):
 
     # Call the initialized report
     # pass the ID and an instance
@@ -286,6 +286,8 @@ def get_employee(id: str):
     # Return the result
     #### YOUR CODE HERE
     Employee_ins = Employee()
+    # Store the selected profile type for the Radio button
+    DashboardFilters.children[0].selected = profile_type
     return report(id, Employee_ins)
 
 # Create a route for a get request
@@ -297,7 +299,7 @@ def get_employee(id: str):
 # to a string datatype
 #### YOUR CODE HERE
 @app.get('/team/{id}')
-def get_team(id: str):
+def get_team(id: str, profile_type: str = "Team"):
 
 
     # Call the initialized report
@@ -306,6 +308,8 @@ def get_team(id: str):
     # Return the result
     #### YOUR CODE HERE
     Team_ins = Team()
+    # Store the selected profile type for the Radio button
+    DashboardFilters.children[0].selected = profile_type
     return report(id, Team_ins)
 
 
@@ -327,9 +331,9 @@ async def update_data(r):
     profile_type = data._dict['profile_type']
     id = data._dict['user-selection']
     if profile_type == 'Employee':
-        return RedirectResponse(f"/employee/{id}", status_code=303)
+        return RedirectResponse(f"/employee/{id}?profile_type={profile_type}", status_code=303)
     elif profile_type == 'Team':
-        return RedirectResponse(f"/team/{id}", status_code=303)
+        return RedirectResponse(f"/team/{id}?profile_type={profile_type}", status_code=303)
     
 
 
